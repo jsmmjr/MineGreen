@@ -1,0 +1,6 @@
+Credit:
+This mod was created by MineGreen, a project is led by a group of students from the Parcours Computer Science & Management of the IAE Paris-Est Créteil .
+This mod was created for an academic project and an international competition.
+The use of this mod is limited to testing purposes only.
+The source code must not be modified or redistributed without prior approval.
+
