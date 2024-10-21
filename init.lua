@@ -24,7 +24,7 @@ local function spawn_bottles_around_player(player)
     for i = 1, 10 do
         local offset = {x = math.random(-10, 10), y = 0, z = math.random(-10, 10)}
         local bottle_pos = vector.add(pos, offset)
-        local bottle = minetest.add_item(bottle_pos, "my_mod:plastic_bottle")
+        local bottle = minetest.add_item(bottle_pos, "minegreen:plastic_bottle")
         table.insert(bottles, bottle)
     end
 end
@@ -39,7 +39,7 @@ local function spawn_glass_bottles_around_player(player)
     for i = 1, 10 do
         local offset = {x = math.random(-10, 10), y = 0, z = math.random(-10, 10)}
         local bottle_pos = vector.add(pos, offset)
-        local bottle = minetest.add_item(bottle_pos, "my_mod:glass_bottle")
+        local bottle = minetest.add_item(bottle_pos, "minegreen:glass_bottle")
         table.insert(bottles, bottle)
     end
 
@@ -53,7 +53,7 @@ local function remove_all_bottles()
         local bottle = bottles[i]
         if bottle and bottle:get_luaentity() then
             local item_name = bottle:get_luaentity().itemstring
-            if item_name == "my_mod:plastic_bottle" or item_name == "my_mod:glass_bottle" then
+            if item_name == "minegreen:plastic_bottle" or item_name == "minegreen:glass_bottle" then
                 bottle:remove()
                 table.remove(bottles, i)
             end
@@ -70,7 +70,7 @@ local function spawn_recycling_station_around_player(player)
 
     local offset = {x = math.random(-10, 10), y = 0, z = math.random(-10, 10)}
     local station_pos = vector.add(pos, offset)
-    minetest.set_node(station_pos, {name = "my_mod:recycling_station"})
+    minetest.set_node(station_pos, {name = "minegreen:recycling_station"})
 
   
     player:set_attribute("recycling_station_spawned", "true")
@@ -86,7 +86,7 @@ local function show_intro(player)
                      "label[2.45,0;Welcome to Minetest!]" ..
                      "label[1,1;Save the planet before it's too late!]" ..
                      "button[2.5,2;4,1;next;Next]"
-    minetest.show_formspec(player_name, "my_mod_intro", formspec)
+    minetest.show_formspec(player_name, "minegreen_intro", formspec)
 end
 
 local function show_mission_hud(player)
@@ -135,7 +135,7 @@ local function show_next_text(player)
                      "label[2.8,0;Follow the missions!]" ..
                      "label[0,1;1st mission: Collect the bottles]" ..
                      "button[2.5,2;4,1;close;Start]"
-    minetest.show_formspec(player_name, "my_mod_next", formspec)
+    minetest.show_formspec(player_name, "minegreen_next", formspec)
     show_mission_hud(player)
 end
 
@@ -148,13 +148,13 @@ minetest.register_on_leaveplayer(function(player)
 end)
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
-    if formname == "my_mod_intro" then
+    if formname == "minegreen_intro" then
         if fields.next then
             show_next_text(player)
         end
-    elseif formname == "my_mod_next" then
+    elseif formname == "minegreen_next" then
         if fields.close then
-            minetest.close_formspec(player:get_player_name(), "my_mod_next")
+            minetest.close_formspec(player:get_player_name(), "minegreen_next")
         end
     end
 end)
@@ -210,9 +210,9 @@ local function update_hud(player)
     local player_name = player:get_player_name()
     local health_percentage = tonumber(player:get_attribute("health_percentage")) or 100
    
-    local bottle_count_plastic = check_bottle_count(player, "my_mod:plastic_bottle")
-    local bottle_count_glass = check_bottle_count(player, "my_mod:glass_bottle")
-    local resin_count = check_bottle_count(player, "my_mod:resin")
+    local bottle_count_plastic = check_bottle_count(player, "minegreen:plastic_bottle")
+    local bottle_count_glass = check_bottle_count(player, "minegreen:glass_bottle")
+    local resin_count = check_bottle_count(player, "minegreen:resin")
 
     local hud_id = player:get_attribute("hud_id")
     if not hud_id then
@@ -419,33 +419,27 @@ end)
 
 
 
-minetest.register_node("my_mod:hola_stone", {
-    description = "Hola Stone",
-    tiles = {"magic_stone.png"},
-    is_ground_content = true,
-    groups = {cracky = 3, stone = 1},
-    drop = "my_mod:hola_stone",  
-})
 
 
-minetest.register_craftitem("my_mod:plastic_bottle", {
+
+minetest.register_craftitem("minegreen:plastic_bottle", {
     description = "Plastic Bottle",
     inventory_image = "plastic_bottle.png"
 })
 
-minetest.register_craftitem("my_mod:glass_bottle", {
+minetest.register_craftitem("minegreen:glass_bottle", {
     description = "Glass Bottle",
     inventory_image = "glass_bottle.png",
     groups = {vessel = 1, dig_immediate = 3, attached_node = 1},
     sounds = default.node_sound_glass_defaults(),
 })
 
-minetest.register_craftitem("my_mod:trash_bag", {
+minetest.register_craftitem("minegreen:trash_bag", {
     description = "Trash Bag",
     inventory_image = "trash_bag.png"
 })
 
-minetest.register_craftitem("my_mod:resin", {
+minetest.register_craftitem("minegreen:resin", {
     description = "Resin",
     inventory_image = "resin.png"
 })
@@ -453,7 +447,7 @@ minetest.register_craftitem("my_mod:resin", {
 
 -- Saved the crafting recipe for "Plastic Bottle"
 minetest.register_craft({
-output = "my_mod",
+output = "minegreen",
 recipe = {
 {"default", "default", "default"},
 {"default", "", "default"},
@@ -464,7 +458,7 @@ recipe = {
 -- Saved the crafting recipe for "Glass Bottle"
 minetest.register_craft({
 type = "shaped",
-output = "my_mod",
+output = "minegreen",
 recipe = {
 {"default", "", ""},
 {"", "default", ""},
@@ -474,13 +468,13 @@ recipe = {
 
 minetest.register_craft({
     type = "shapeless",
-    output = "my_mod:resin",
-    recipe = {"my_mod:plastic_bottle"}
+    output = "minegreen:resin",
+    recipe = {"minegreen:plastic_bottle"}
 })
 
 
 -- Registration of node "recycling_station"
-minetest.register_node("my_mod:recycling_station", {
+minetest.register_node("minegreen:recycling_station", {
     description = "Recycling Station",
     tiles = {"recycling_station_top.png", "recycling_station_bottom.png", "recycling_station_side.png"},
     groups = {cracky = 2, oddly_breakable_by_hand = 2},
@@ -490,14 +484,14 @@ minetest.register_node("my_mod:recycling_station", {
         local inv = player:get_inventory()
         
         -- Check if the player has at least one plastic bottle in the main inventory
-        local plastic_bottle_stack = ItemStack("my_mod:plastic_bottle 1")
+        local plastic_bottle_stack = ItemStack("minegreen:plastic_bottle 1")
         if inv:contains_item("main", plastic_bottle_stack) then
      -- Remove a single plastic bottle from the player's inventory
             local success = inv:remove_item("main", plastic_bottle_stack)
             
             if success then
                 -- Add a resin to the player's inventory
-                local resin_stack = ItemStack("my_mod:resin")
+                local resin_stack = ItemStack("minegreen:resin")
                 inv:add_item("main", resin_stack)
                 
                -- Inform the player of the success of the operation
